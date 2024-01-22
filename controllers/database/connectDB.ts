@@ -3,10 +3,13 @@ import { load } from "https://deno.land/std@0.212.0/dotenv/mod.ts";
 
 const client = new MongoClient();
 const env = await load();
-
 const dbString = `mongodb+srv://loranmaes:${env["MONGO_DB_PASSWORD"]}@cluster0.jljswyp.mongodb.net/?authMechanism=SCRAM-SHA-1`;
 
-await client.connect(dbString);
+try {
+  await client.connect(dbString);
+} catch (error) {
+  console.log(error);
+}
 
 console.log("Database connected");
 
