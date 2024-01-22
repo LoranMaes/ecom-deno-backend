@@ -29,3 +29,33 @@ export const signup = async ({ req, res }: { req: any; res: any }) => {
     },
   };
 };
+
+export const signin = async ({ req, res }: { req: any; res: any }) => {
+  const {
+    value: { username, password },
+  } = await req.body();
+  const user = await users.findOne({ username });
+  if (!user) {
+    res.status = 401;
+    res.body = {
+      message: "Invalid username",
+    };
+    return;
+  }
+  const passwordMatch = await bcrypt.compare(password, user.password);
+  if (!passwordMatch) {
+    res.status = 401;
+    res.body = {
+      message: "Invalid password",
+    };
+    return;
+  }
+  res.status = 200;
+  res.body = {
+    message: "User logged in",
+    data: {
+      _id: user._id,
+      username: user.username,
+    },
+  };
+};
