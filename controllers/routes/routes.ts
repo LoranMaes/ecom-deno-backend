@@ -3,6 +3,6 @@ import { signup } from "../users.ts";
 
 const router = new Router();
 
-// router.post("/api/signup", signup);
+router.post("/api/signup", signup);
 
 export default router;
