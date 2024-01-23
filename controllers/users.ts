@@ -102,7 +102,7 @@ export const signin = async ({ req, res }: { req: any; res: any }) => {
   if (!passwordMatch) {
     res.status = 401;
     res.body = {
-      message: "Invalid credentials",
+      message: "Invalid credentialss",
     };
     return;
   }
