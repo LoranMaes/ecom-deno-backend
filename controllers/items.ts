@@ -20,28 +20,28 @@ export const create = async ({
     const updated_at = new Date();
     let _id: any;
     const getUser = await 
-    const shop_id = await shops.findOne({owner: })
-    try {
-      _id = await items.insertOne({
-        shop: shopId,
-        name,
-        description,
-        price,
-        category,
-        sku,
-        images,
-        status,
-        created_at,
-        updated_at,
-      });
-    } catch (error) {
-      response.status = 500;
-      response.body = {
-        message: `Something went wrong while creating the item.`,
-      };
-      console.log(error);
-      return;
-    }
+    // const shop_id = await shops.findOne({owner: })
+    // try {
+    //   _id = await items.insertOne({
+    //     shop: shopId,
+    //     name,
+    //     description,
+    //     price,
+    //     category,
+    //     sku,
+    //     images,
+    //     status,
+    //     created_at,
+    //     updated_at,
+    //   });
+    // } catch (error) {
+    //   response.status = 500;
+    //   response.body = {
+    //     message: `Something went wrong while creating the item.`,
+    //   };
+    //   console.log(error);
+    //   return;
+    // }
 
     response.status = 201;
     response.body = {

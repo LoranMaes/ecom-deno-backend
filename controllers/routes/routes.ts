@@ -1,4 +1,4 @@
-import { Router } from "https://deno.land/x/oak/mod.ts";
+import { Router } from "https://deno.land/x/oak@v12.6.2/mod.ts";
 import { getUser, signin, signup } from "../users.ts";
 
 const router = new Router();

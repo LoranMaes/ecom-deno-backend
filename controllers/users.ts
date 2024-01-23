@@ -1,5 +1,5 @@
 import db from "./database/connectDB.ts";
-import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
+import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 import { UserSchema } from "./schema/user.ts";
 import { create, verify } from "https://deno.land/x/djwt@v3.0.1/mod.ts";
 import { key } from "./utils/apiKey.ts";
@@ -93,7 +93,7 @@ export const signin = async ({ req, res }: { req: any; res: any }) => {
   if (!user) {
     res.status = 404;
     res.body = {
-      message: `User ${username} not found`,
+      message: `Invalid credentials`,
     };
     return;
   }
@@ -102,7 +102,7 @@ export const signin = async ({ req, res }: { req: any; res: any }) => {
   if (!passwordMatch) {
     res.status = 401;
     res.body = {
-      message: "Incorrect password",
+      message: "Invalid credentials",
     };
     return;
   }
@@ -154,6 +154,6 @@ export const getUser = async ({ req, res }: { req: any; res: any }) => {
   res.status = 200;
   res.body = {
     message: "User found",
-    data: user
+    data: user,
   };
 };
