@@ -47,7 +47,7 @@ export const signup = async ({
     return;
   }
 
-  const hashedPassword = await bcrypt.hash(password);
+  const hashedPassword = bcrypt.hashSync(password);
   const created_at = new Date();
   const updated_at = new Date();
   let _id: any;
@@ -98,7 +98,7 @@ export const signin = async ({ req, res }: { req: any; res: any }) => {
     return;
   }
 
-  const passwordMatch = await bcrypt.compare(password, user.password);
+  const passwordMatch = bcrypt.compareSync(password, user.password);
   if (!passwordMatch) {
     res.status = 401;
     res.body = {

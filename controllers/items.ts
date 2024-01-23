@@ -4,6 +4,7 @@ import { ObjectId } from "https://deno.land/x/mongo@v0.32.0/mod.ts";
 
 const items = db.collection<ItemSchema>("items");
 const shops = db.collection<ShopSchema>("shops");
+const users = db.collection<ShopSchema>("users");
 
 export const create = async ({
   request,
@@ -19,29 +20,29 @@ export const create = async ({
     const created_at = new Date();
     const updated_at = new Date();
     let _id: any;
-    const getUser = await 
+    // const getUser = await users.findOne({ username });
     // const shop_id = await shops.findOne({owner: })
-    // try {
-    //   _id = await items.insertOne({
-    //     shop: shopId,
-    //     name,
-    //     description,
-    //     price,
-    //     category,
-    //     sku,
-    //     images,
-    //     status,
-    //     created_at,
-    //     updated_at,
-    //   });
-    // } catch (error) {
-    //   response.status = 500;
-    //   response.body = {
-    //     message: `Something went wrong while creating the item.`,
-    //   };
-    //   console.log(error);
-    //   return;
-    // }
+    try {
+      _id = await items.insertOne({
+        shop: "shopId",
+        name,
+        description,
+        price,
+        category,
+        sku,
+        images,
+        status,
+        created_at,
+        updated_at,
+      });
+    } catch (error) {
+      response.status = 500;
+      response.body = {
+        message: `Something went wrong while creating the item.`,
+      };
+      console.log(error);
+      return;
+    }
 
     response.status = 201;
     response.body = {
