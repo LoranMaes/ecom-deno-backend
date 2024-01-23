@@ -7,11 +7,11 @@ const dbString = `mongodb+srv://loranmaes:${env["MONGO_DB_PASSWORD"]}@cluster0.j
 
 try {
   await client.connect(dbString);
+  console.log("Database connected");
 } catch (error) {
+  console.log("Failed to connect to the database:", error);
   console.log(error);
 }
-
-console.log("Database connected");
 
 const db = client.database("deno_auth");
 
