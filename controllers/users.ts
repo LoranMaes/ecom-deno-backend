@@ -1,13 +1,10 @@
 import db from "./database/connectDB.ts";
-import {
-  hashSync,
-  compareSync,
-  genSaltSync,
-} from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 import { UserSchema } from "./schema/user.ts";
 import { create, verify } from "https://deno.land/x/djwt@v3.0.1/mod.ts";
 import { key } from "./utils/apiKey.ts";
 import { passwordTest, validateEmail } from "./utils/filters.ts";
+import { genSaltSync } from "https://deno.land/x/bcrypt@v0.4.1/src/main.ts";
+import { compare, hash } from "./utils/hashing.ts";
 
 const users = db.collection<UserSchema>("users");
 
@@ -52,7 +49,7 @@ export const signup = async ({
   }
 
   const salt = genSaltSync(8);
-  const hashedPassword = hashSync(password, salt);
+  const hashedPassword = await hash(password, salt);
   const created_at = new Date();
   const updated_at = new Date();
   let _id: any;
@@ -105,7 +102,7 @@ export const signin = async ({ req, res }: { req: any; res: any }) => {
 
   let passwordMatch = false;
   try {
-    passwordMatch = compareSync(password, user.password);
+    passwordMatch = await compare(password, user.password);
   } catch (error) {
     console.log(error);
     res.status = 500;
@@ -114,11 +111,11 @@ export const signin = async ({ req, res }: { req: any; res: any }) => {
     };
     return;
   }
-  
+
   if (!passwordMatch) {
     res.status = 401;
     res.body = {
-      message: "Invalid credentialss",
+      message: "Invalid credentials",
     };
     return;
   }
