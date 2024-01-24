@@ -103,7 +103,18 @@ export const signin = async ({ req, res }: { req: any; res: any }) => {
     return;
   }
 
-  const passwordMatch = compareSync(password, user.password);
+  let passwordMatch = false;
+  try {
+    passwordMatch = compareSync(password, user.password);
+  } catch (error) {
+    console.log(error);
+    res.status = 500;
+    res.body = {
+      message: "Internal server error",
+    };
+    return;
+  }
+  
   if (!passwordMatch) {
     res.status = 401;
     res.body = {
