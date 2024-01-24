@@ -72,8 +72,7 @@ export const getShops = async ({
   request: any;
   response: any;
 }) => {
-  const allShops = shops.find();
-  console.log(allShops);
+  const allShops = await shops.find().toArray();
 
   if (!Object.keys(allShops).length) {
     response.status = 404;
@@ -86,7 +85,7 @@ export const getShops = async ({
   response.status = 200;
   response.body = {
     message: `All shops successfully found.`,
-    allShops,
+    data: allShops,
   };
   return;
 };
