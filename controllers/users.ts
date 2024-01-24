@@ -1,5 +1,9 @@
 import db from "./database/connectDB.ts";
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
+import {
+  hashSync,
+  compareSync,
+  genSaltSync,
+} from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
 import { UserSchema } from "./schema/user.ts";
 import { create, verify } from "https://deno.land/x/djwt@v3.0.1/mod.ts";
 import { key } from "./utils/apiKey.ts";
@@ -47,7 +51,8 @@ export const signup = async ({
     return;
   }
 
-  const hashedPassword = bcrypt.hashSync(password);
+  const salt = genSaltSync(8);
+  const hashedPassword = hashSync(password, salt);
   const created_at = new Date();
   const updated_at = new Date();
   let _id: any;
@@ -98,7 +103,7 @@ export const signin = async ({ req, res }: { req: any; res: any }) => {
     return;
   }
 
-  const passwordMatch = bcrypt.compareSync(password, user.password);
+  const passwordMatch = compareSync(password, user.password);
   if (!passwordMatch) {
     res.status = 401;
     res.body = {
