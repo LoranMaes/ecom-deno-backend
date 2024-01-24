@@ -47,8 +47,18 @@ export const signup = async ({
     return;
   }
 
-  const salt = genSaltSync(8);
-  const hashedPassword = await hash(password, salt);
+  let hashedPassword: string;
+  try {
+    const salt = genSaltSync(8);
+    hashedPassword = await hash(password, salt);
+  } catch (error) {
+    response.status = 500;
+    response.body = {
+      message: `Something went wrong while hashing the password.`,
+    };
+    return;
+  }
+  
   const created_at = new Date();
   const updated_at = new Date();
   let _id: any;
