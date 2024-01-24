@@ -6,7 +6,7 @@ import { load } from "https://deno.land/std@0.212.0/dotenv/mod.ts";
 
 const client = new MongoClient();
 const env = await load();
-const dbString = `mongodb+srv://loranmaes:${env["MONGO_DB_PASSWORD"]}@cluster0.jljswyp.mongodb.net/?authMechanism=SCRAM-SHA-1`;
+const dbString = `mongodb+srv://loranmaes:VHh7SDWGD1AXdP3x@cluster0.jljswyp.mongodb.net/?authMechanism=SCRAM-SHA-1`;
 
 let db: Database | null = null;
 
