@@ -26,7 +26,7 @@ router
   .get("/api/shops/:id", async (context) => {
     await getShop({ request: context.request, response: context.response });
   })
-  .post("/api/shop", async (context) => {
+  .post("/api/shop", authorized, async (context) => {
     await createShop({ request: context.request, response: context.response });
   });
 

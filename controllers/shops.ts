@@ -42,11 +42,9 @@ export const getShop = async ({
       };
       return;
     }
-    // const owner = await users.findOne({
-    //   _id: new ObjectId(shop.owner),
-    // });
-    // console.log(owner);
-    const owner = {};
+    const owner = await users.findOne({
+      _id: new ObjectId(shop.owner),
+    });
     response.status = 200;
     response.body = {
       message: `Shop successfully found.`,
@@ -62,7 +60,6 @@ export const getShop = async ({
     response.body = {
       message: `Something went wrong while verifying the token.`,
     };
-    console.log(error);
     return;
   }
 };
@@ -131,14 +128,14 @@ export const createShop = async ({
 
     try {
       // ownerId should be verified with JWT and then the token should be put there
-      //   const payload = await verify(
-      //     request.headers.get("Authorization")?.split(" ")[1] || "",
-      //     key
-      //   );
-      //   const ownerId = await users.findOne({ _id: payload?.id });
+      const payload = await verify(
+        request.headers.get("Authorization")?.split(" ")[1] || "",
+        key
+      );
+      const ownerId = await users.findOne({ _id: payload?.id });
 
       _id = await shops.insertOne({
-        owner: "currently_not_available",
+        owner: ownerId?._id,
         name: formData.fields.name,
         address: formData.fields.address,
         public: formData.fields.isPublic,
