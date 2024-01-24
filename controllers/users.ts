@@ -1,6 +1,10 @@
 import db from "./database/connectDB.ts";
 import { UserSchema } from "./schema/user.ts";
-import { create, verify } from "https://deno.land/x/djwt@v3.0.1/mod.ts";
+import {
+  create,
+  getNumericDate,
+  verify,
+} from "https://deno.land/x/djwt@v3.0.1/mod.ts";
 import { key } from "./utils/apiKey.ts";
 import { passwordTest, validateEmail } from "./utils/filters.ts";
 import { genSaltSync } from "https://deno.land/x/bcrypt@v0.4.1/src/main.ts";
@@ -131,13 +135,15 @@ export const signin = async ({ req, res }: { req: any; res: any }) => {
     return;
   }
 
-  const payload = {
-    id: user._id,
-    username: user.username,
-  };
-  const jwt = await create({ alg: "HS512", typ: "JWT" }, { payload }, key);
+  const payload = user;
+  const jwt = await create(
+    { alg: "HS512", typ: "JWT" },
+    { payload, exp: new Date().getTime() + 60 * 60 * 1000 * 24 },
+    key
+  );
 
   if (jwt) {
+    // req.cookies.set("jwt", jwt, { httpOnly: true });
     res.status = 200;
     res.body = {
       message: "User logged in",
