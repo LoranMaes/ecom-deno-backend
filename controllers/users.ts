@@ -6,6 +6,8 @@ import { passwordTest, validateEmail } from "./utils/filters.ts";
 import { genSaltSync } from "https://deno.land/x/bcrypt@v0.4.1/src/main.ts";
 import { compare, hash } from "./utils/hashing.ts";
 
+if (!db) throw Error("Could not connect to database");
+
 const users = db.collection<UserSchema>("users");
 
 export const signup = async ({
@@ -58,7 +60,7 @@ export const signup = async ({
     };
     return;
   }
-  
+
   const created_at = new Date();
   const updated_at = new Date();
   let _id: any;

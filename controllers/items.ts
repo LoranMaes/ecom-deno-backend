@@ -2,6 +2,8 @@ import db from "./database/connectDB.ts";
 import { ItemSchema, ShopSchema } from "./schema/shop.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.32.0/mod.ts";
 
+if (!db) throw Error("Could not connect to database");
+
 const items = db.collection<ItemSchema>("items");
 const shops = db.collection<ShopSchema>("shops");
 const users = db.collection<ShopSchema>("users");
