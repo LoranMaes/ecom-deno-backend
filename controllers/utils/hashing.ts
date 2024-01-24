@@ -4,9 +4,10 @@ import {
   compare as comparePromise,
   compareSync,
   genSaltSync,
-} from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
+} from "https://deno.land/x/bcrypt/mod.ts";
 
 const isRunningInDenoDeploy = (globalThis as any).Worker === undefined;
+console.log("isRunningInDenoDeploy ", isRunningInDenoDeploy);
 
 export const hash: typeof hashPromise = isRunningInDenoDeploy
   ? (plaintext: string, salt: string | undefined = undefined) =>

@@ -39,7 +39,6 @@ export const signup = async ({
     return;
   }
   const user = await users.findOne({ username });
-  console.log(user);
   if (user) {
     response.status = 409;
     response.body = {
