@@ -5,7 +5,7 @@ import { createShop, getShop, getShops } from "../shops.ts";
 
 const router = new Router();
 
-router.get("/api/", ({ response }: { response: any }) => {
+router.get("/api", ({ response }: { response: any }) => {
   response.body = "Rawr, I'm a dinosaur! 🦖 ";
   response.status = 200;
 });

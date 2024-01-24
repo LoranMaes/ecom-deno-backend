@@ -23,7 +23,6 @@ export const getShop = async ({
       request.url.pathname.split("/")[
         request.url.pathname.split("/").length - 1
       ];
-
     if (!shop_id) {
       response.status = 400;
       response.body = {
@@ -33,7 +32,7 @@ export const getShop = async ({
     }
 
     const shop = await shops.findOne({
-      _id: shop_id,
+      _id: new ObjectId(shop_id),
     });
 
     if (!shop) {
@@ -43,15 +42,18 @@ export const getShop = async ({
       };
       return;
     }
-    const owner = await users.findOne({
-      _id: shop.owner,
-    });
-    request.status = 200;
-    request.body = {
+    // const owner = await users.findOne({
+    //   _id: new ObjectId(shop.owner),
+    // });
+    // console.log(owner);
+    const owner = {};
+    response.status = 200;
+    response.body = {
       message: `Shop successfully found.`,
       data: {
         shop,
         owner,
+        items: [],
       },
     };
     return;
